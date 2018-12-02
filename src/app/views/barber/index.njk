@@ -1,0 +1,24 @@
+{% extends "layouts/default.njk" %}
+
+{% block body %}
+  <div class="content">
+    <strong>Meus horários agendados</strong>
+    <input type="text" class="flatpickr" placeholder="Escolha uma data">
+    <div id="schedule">
+    </div>
+    <a href="/app/dashboard" class="logout">Voltar</a>
+  </div>
+  <script type="text/javascript">
+    flatpickr('.flatpickr', {
+      minDate: new Date(),
+      dateFormat: 'd/m/Y',
+      onChange : function (date) {
+        fetch(`/app/schedule/{{ user.id }}?date=${date[0].getTime()}`).then(function(response){
+          response.text().then(function(html){
+            document.getElementById('schedule').innerHTML = html
+          })
+        })
+      }
+    })
+  </script>
+{% endblock %}

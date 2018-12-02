@@ -1,0 +1,15 @@
+<ul class="appointments">
+  {% if not schedule|length %}
+      <li class="provider">
+        <strong>Nenhum agendamento encontrado!</strong>
+      </li>
+  {% endif %}
+  {% for appointment in schedule %}
+    <li class="provider">
+      <div>
+        <img src="/files/{{ appointment.user.avatar }}" alt="">
+        <strong>{{ appointment.user.name }} <br> {{ appointment.date}}</strong>
+      </div>
+    </li>
+  {% endfor %}
+</ul>

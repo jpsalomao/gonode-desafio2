@@ -6,12 +6,16 @@ const routes = express.Router()
 
 const authMiddleware = require('./app/middlewares/auth')
 const guestMiddleware = require('./app/middlewares/guest')
+const barberMiddleware = require('./app/middlewares/barber')
+
 const UserController = require('./app/controllers/UserController')
 const SessionController = require('./app/controllers/SessionController')
 const DashboardController = require('./app/controllers/DashboardController')
 const FileController = require('./app/controllers/FileController')
 const AppointmentController = require('./app/controllers/AppointmentController')
 const AvailableController = require('./app/controllers/AvailableController')
+const BarberController = require('./app/controllers/BarberController')
+const ScheduleController = require('./app/controllers/ScheduleController')
 
 routes.use((req, res, next) => {
   res.locals.flashSuccess = req.flash('success')
@@ -36,5 +40,12 @@ routes.get('/app/dashboard', DashboardController.index)
 routes.get('/app/appointments/new/:provider', AppointmentController.create)
 routes.post('/app/appointments/new/:provider', AppointmentController.store)
 routes.get('/app/available/:provider', AvailableController.index)
+
+routes.get('/app/dashboard/barber', barberMiddleware, BarberController.index)
+routes.get(
+  '/app/schedule/:provider',
+  barberMiddleware,
+  ScheduleController.index
+)
 
 module.exports = routes
